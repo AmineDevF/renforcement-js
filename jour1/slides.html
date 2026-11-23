@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 1 · Slides formateur · Les bases JS</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style>
+  html,body{height:100%;margin:0}
+  body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif}
+  section{display:none}
+  section.active{display:flex}
+  pre{font-family:ui-monospace,"Cascadia Code","Fira Code",Consolas,monospace}
+  .k{color:#f472b6}.s{color:#86efac}.c{color:#64748b}.n{color:#fbbf24}.f{color:#60a5fa}
+</style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+
+<!-- ============ SLIDES ============ -->
+<main id="deck" class="h-full">
+
+<!-- 1 -->
+<section class="h-full flex-col items-center justify-center text-center gap-6 px-10">
+  <span class="text-yellow-400 font-mono text-xl tracking-widest">DWWM · SEMAINE DE RENFORCEMENT</span>
+  <h1 class="text-7xl font-black">Les bases du <span class="text-yellow-400">JavaScript</span></h1>
+  <p class="text-2xl text-slate-400">Jour 1 · Live coding · 3 h</p>
+  <div class="flex gap-3 mt-6 text-lg font-mono">
+    <span class="px-4 py-2 rounded-lg bg-slate-800">variables</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">conditions</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">fonctions</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">DOM</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">événements</span>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <h2 class="text-5xl font-bold">Programme de la matinée</h2>
+  <div class="grid grid-cols-4 gap-4 text-xl">
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">0:00</p><p class="font-bold mt-2">Variables & types</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">0:35</p><p class="font-bold mt-2">Conditions</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">1:00</p><p class="font-bold mt-2">Fonctions</p></div>
+    <div class="rounded-2xl bg-slate-700 p-6"><p class="font-mono text-yellow-400">1:30</p><p class="font-bold mt-2">☕ Pause</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">1:40</p><p class="font-bold mt-2">Le DOM</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">2:10</p><p class="font-bold mt-2">Événements</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">2:35</p><p class="font-bold mt-2">Mini-projet</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-yellow-400">2:50</p><p class="font-bold mt-2">Récap + quiz</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">01 · SETUP</p>
+  <h2 class="text-5xl font-bold">Où écrire du JavaScript ?</h2>
+  <div class="grid grid-cols-2 gap-8">
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="c">&lt;!-- index.html --&gt;</span>
+&lt;body&gt;
+  &lt;h1&gt;Bonjour&lt;/h1&gt;
+
+  <span class="c">&lt;!-- toujours à la fin du body --&gt;</span>
+  &lt;script src=<span class="s">"app.js"</span>&gt;&lt;/script&gt;
+&lt;/body&gt;</pre>
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="c">// app.js</span>
+console.<span class="f">log</span>(<span class="s">"Ça marche !"</span>);</pre>
+  </div>
+  <p class="text-2xl text-slate-400">🔎 <b class="text-slate-100">F12</b> → onglet <b class="text-slate-100">Console</b> : ton meilleur ami.</p>
+</section>
+
+<!-- 4 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">02 · VARIABLES</p>
+  <h2 class="text-5xl font-bold"><code class="text-pink-400">let</code> ou <code class="text-pink-400">const</code> ?</h2>
+<pre class="bg-slate-900 rounded-2xl p-8 text-3xl leading-relaxed"><span class="k">const</span> prenom = <span class="s">"Yassine"</span>;   <span class="c">// ne change pas</span>
+<span class="k">let</span> score = <span class="n">0</span>;            <span class="c">// va changer</span>
+
+score = score + <span class="n">10</span>;           <span class="c">// ✅</span>
+prenom = <span class="s">"Sara"</span>;             <span class="c">// ❌ TypeError</span></pre>
+  <div class="flex gap-4 text-2xl">
+    <span class="rounded-xl bg-emerald-900/60 px-5 py-3">Par défaut → <b>const</b></span>
+    <span class="rounded-xl bg-sky-900/60 px-5 py-3">Ça bouge → <b>let</b></span>
+    <span class="rounded-xl bg-red-900/60 px-5 py-3 line-through">var</span>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">02 · TYPES</p>
+  <h2 class="text-5xl font-bold">Les 4 types à connaître</h2>
+  <div class="grid grid-cols-4 gap-4 text-2xl font-mono">
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-slate-400 text-lg">string</p><p class="text-green-300 mt-2">"Casa"</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-slate-400 text-lg">number</p><p class="text-amber-300 mt-2">42 · 3.5</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-slate-400 text-lg">boolean</p><p class="text-pink-300 mt-2">true · false</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-slate-400 text-lg">vide</p><p class="text-slate-300 mt-2">undefined · null</p></div>
+  </div>
+<pre class="bg-slate-900 rounded-2xl p-8 text-3xl leading-relaxed"><span class="k">typeof</span> <span class="n">42</span>      <span class="c">// "number"</span>
+<span class="s">"5"</span> + <span class="n">2</span>        <span class="c">// "52"  ⚠️ concaténation</span>
+<span class="f">Number</span>(<span class="s">"5"</span>) + <span class="n">2</span> <span class="c">// 7</span></pre>
+</section>
+
+<!-- 6 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">02 · TEXTE</p>
+  <h2 class="text-5xl font-bold">Template literals <code class="text-yellow-400">` `</code></h2>
+<pre class="bg-slate-900 rounded-2xl p-8 text-3xl leading-relaxed"><span class="k">const</span> nom = <span class="s">"Sara"</span>;
+<span class="k">const</span> age = <span class="n">20</span>;
+
+<span class="c">// ❌ vieux style</span>
+<span class="s">"Je m'appelle "</span> + nom + <span class="s">" et j'ai "</span> + age + <span class="s">" ans"</span>
+
+<span class="c">// ✅ moderne</span>
+<span class="s">`Je m'appelle </span><span class="n">${nom}</span><span class="s"> et j'ai </span><span class="n">${age}</span><span class="s"> ans`</span></pre>
+  <p class="text-2xl text-slate-400">Touche <b class="text-slate-100">AltGr + 7</b> (clavier AZERTY)</p>
+</section>
+
+<!-- 7 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">03 · OPÉRATEURS</p>
+  <h2 class="text-5xl font-bold">Comparer</h2>
+  <div class="grid grid-cols-3 gap-4 text-3xl font-mono">
+    <div class="rounded-2xl bg-emerald-900/50 p-6"><b>===</b><p class="text-lg font-sans text-slate-300 mt-2">égal (valeur + type)</p></div>
+    <div class="rounded-2xl bg-emerald-900/50 p-6"><b>!==</b><p class="text-lg font-sans text-slate-300 mt-2">différent</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><b>&gt; &lt; &gt;= &lt;=</b><p class="text-lg font-sans text-slate-300 mt-2">plus grand / petit</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><b>&amp;&amp;</b><p class="text-lg font-sans text-slate-300 mt-2">ET (les deux)</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><b>||</b><p class="text-lg font-sans text-slate-300 mt-2">OU (au moins un)</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><b>!</b><p class="text-lg font-sans text-slate-300 mt-2">NON (inverse)</p></div>
+  </div>
+<pre class="bg-slate-900 rounded-2xl p-6 text-2xl"><span class="s">"5"</span> == <span class="n">5</span>   <span class="c">// true  ⚠️ à éviter</span>
+<span class="s">"5"</span> === <span class="n">5</span>  <span class="c">// false ✅ toujours ===</span></pre>
+</section>
+
+<!-- 8 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">03 · CONDITIONS</p>
+  <h2 class="text-5xl font-bold"><code class="text-pink-400">if</code> / <code class="text-pink-400">else</code></h2>
+  <div class="grid grid-cols-2 gap-8">
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="k">const</span> note = <span class="n">14</span>;
+
+<span class="k">if</span> (note &gt;= <span class="n">16</span>) {
+  console.<span class="f">log</span>(<span class="s">"Très bien"</span>);
+} <span class="k">else if</span> (note &gt;= <span class="n">10</span>) {
+  console.<span class="f">log</span>(<span class="s">"Validé"</span>);
+} <span class="k">else</span> {
+  console.<span class="f">log</span>(<span class="s">"À revoir"</span>);
+}</pre>
+    <div class="flex flex-col gap-4">
+      <p class="text-2xl text-slate-400">Ternaire = if/else en 1 ligne</p>
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="k">const</span> msg = note &gt;= <span class="n">10</span>
+  ? <span class="s">"Validé"</span>
+  : <span class="s">"À revoir"</span>;</pre>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">04 · FONCTIONS</p>
+  <h2 class="text-5xl font-bold">Une fonction = une recette</h2>
+<pre class="bg-slate-900 rounded-2xl p-8 text-3xl leading-relaxed"><span class="k">function</span> <span class="f">direBonjour</span>(<span class="n">prenom</span>) {   <span class="c">// paramètre</span>
+  <span class="k">return</span> <span class="s">`Bonjour ${prenom} !`</span>;   <span class="c">// résultat</span>
+}
+
+<span class="k">const</span> msg = <span class="f">direBonjour</span>(<span class="s">"Sara"</span>);  <span class="c">// appel + argument</span>
+console.<span class="f">log</span>(msg);  <span class="c">// "Bonjour Sara !"</span></pre>
+  <div class="flex gap-4 text-2xl">
+    <span class="rounded-xl bg-slate-800 px-5 py-3">1. <b>définir</b></span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3">2. <b>appeler</b></span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3">3. <b>return</b> = renvoie et s'arrête</span>
+  </div>
+</section>
+
+<!-- 10 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">04 · FONCTIONS</p>
+  <h2 class="text-5xl font-bold">Fonction fléchée <code class="text-yellow-400">=&gt;</code></h2>
+  <div class="grid grid-cols-2 gap-8">
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="c">// classique</span>
+<span class="k">function</span> <span class="f">carre</span>(n) {
+  <span class="k">return</span> n * n;
+}</pre>
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="c">// fléchée</span>
+<span class="k">const</span> <span class="f">carre</span> = (n) =&gt; {
+  <span class="k">return</span> n * n;
+};
+
+<span class="c">// version courte</span>
+<span class="k">const</span> <span class="f">carre</span> = n =&gt; n * n;</pre>
+  </div>
+  <p class="text-2xl text-slate-400">Même résultat. On verra la fléchée partout avec <b class="text-slate-100">map / filter</b> (jour 4).</p>
+</section>
+
+<!-- 11 -->
+<section class="h-full flex-col items-center justify-center gap-6">
+  <p class="text-9xl">☕</p>
+  <h2 class="text-6xl font-bold">Pause · 10 min</h2>
+  <p class="text-2xl text-slate-400">Ensuite : on fait bouger la page</p>
+</section>
+
+<!-- 12 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">05 · DOM</p>
+  <h2 class="text-5xl font-bold">Le DOM = la page vue par JS</h2>
+  <div class="grid grid-cols-2 gap-8 items-center">
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed">document
+ └ html
+    └ body
+       ├ h1#titre
+       ├ p.info
+       └ button#btn</pre>
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed"><span class="c">// 1 élément (le premier)</span>
+<span class="k">const</span> titre = document.<span class="f">querySelector</span>(<span class="s">"#titre"</span>);
+<span class="k">const</span> info  = document.<span class="f">querySelector</span>(<span class="s">".info"</span>);
+
+<span class="c">// plusieurs éléments</span>
+<span class="k">const</span> items = document.<span class="f">querySelectorAll</span>(<span class="s">"li"</span>);</pre>
+  </div>
+  <p class="text-2xl text-slate-400">Même syntaxe que le CSS : <b class="text-slate-100">#id</b> · <b class="text-slate-100">.classe</b> · <b class="text-slate-100">balise</b></p>
+</section>
+
+<!-- 13 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">05 · DOM</p>
+  <h2 class="text-5xl font-bold">Modifier un élément</h2>
+<pre class="bg-slate-900 rounded-2xl p-8 text-3xl leading-relaxed">titre.textContent = <span class="s">"Nouveau titre"</span>;   <span class="c">// texte</span>
+titre.innerHTML = <span class="s">"&lt;b&gt;Gras&lt;/b&gt;"</span>;       <span class="c">// HTML</span>
+
+titre.classList.<span class="f">add</span>(<span class="s">"text-red-500"</span>);   <span class="c">// classe +</span>
+titre.classList.<span class="f">remove</span>(<span class="s">"hidden"</span>);      <span class="c">// classe −</span>
+titre.classList.<span class="f">toggle</span>(<span class="s">"hidden"</span>);      <span class="c">// on / off</span>
+
+input.value                            <span class="c">// contenu d'un input</span></pre>
+  <p class="text-2xl text-slate-400">Avec Tailwind, on change le style en <b class="text-slate-100">ajoutant / retirant des classes</b>.</p>
+</section>
+
+<!-- 14 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">06 · ÉVÉNEMENTS</p>
+  <h2 class="text-5xl font-bold"><code class="text-pink-400">addEventListener</code></h2>
+<pre class="bg-slate-900 rounded-2xl p-8 text-3xl leading-relaxed"><span class="k">const</span> btn = document.<span class="f">querySelector</span>(<span class="s">"#btn"</span>);
+
+btn.<span class="f">addEventListener</span>(<span class="s">"click"</span>, () =&gt; {
+  console.<span class="f">log</span>(<span class="s">"Cliqué !"</span>);
+});</pre>
+  <div class="flex gap-4 text-2xl font-mono">
+    <span class="rounded-xl bg-slate-800 px-5 py-3">élément</span>
+    <span class="text-slate-500 self-center">+</span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3">"événement"</span>
+    <span class="text-slate-500 self-center">+</span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3">fonction à exécuter</span>
+  </div>
+</section>
+
+<!-- 15 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">06 · ÉVÉNEMENTS</p>
+  <h2 class="text-5xl font-bold">Les 3 événements du quotidien</h2>
+  <div class="grid grid-cols-3 gap-6">
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-3xl text-yellow-400">click</p><p class="text-xl text-slate-300 mt-2">bouton, carte, lien</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-3xl text-yellow-400">input</p><p class="text-xl text-slate-300 mt-2">à chaque lettre tapée</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="font-mono text-3xl text-yellow-400">submit</p><p class="text-xl text-slate-300 mt-2">envoi d'un formulaire</p></div>
+  </div>
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed">form.<span class="f">addEventListener</span>(<span class="s">"submit"</span>, (<span class="n">e</span>) =&gt; {
+  e.<span class="f">preventDefault</span>();   <span class="c">// ⚠️ sinon la page se recharge</span>
+  console.<span class="f">log</span>(input.value);
+});</pre>
+</section>
+
+<!-- 16 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">RAPPEL TAILWIND</p>
+  <h2 class="text-5xl font-bold"><code class="text-sky-400">flex</code> = sur une ligne</h2>
+  <div class="grid grid-cols-2 gap-8 items-center">
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed">&lt;div class=<span class="s">"flex gap-4
+            justify-between
+            items-center"</span>&gt;
+  &lt;p&gt;Logo&lt;/p&gt;
+  &lt;button&gt;Menu&lt;/button&gt;
+&lt;/div&gt;</pre>
+    <div class="flex flex-col gap-4">
+      <div class="flex gap-4 justify-between items-center rounded-2xl border-2 border-dashed border-sky-500 p-4 text-xl">
+        <span class="rounded-lg bg-sky-600 px-4 py-2">Logo</span><span class="rounded-lg bg-sky-600 px-4 py-2">Menu</span>
+      </div>
+      <ul class="text-xl font-mono text-slate-300 space-y-1">
+        <li><b class="text-sky-400">justify-*</b> → axe horizontal</li>
+        <li><b class="text-sky-400">items-*</b> → axe vertical</li>
+        <li><b class="text-sky-400">flex-col</b> → en colonne</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 17 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">RAPPEL TAILWIND</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">grid</code> = des cases</h2>
+  <div class="grid grid-cols-2 gap-8 items-center">
+<pre class="bg-slate-900 rounded-2xl p-8 text-2xl leading-relaxed">&lt;div class=<span class="s">"grid grid-cols-1
+            md:grid-cols-3
+            gap-4"</span>&gt;
+  &lt;div&gt;Carte&lt;/div&gt;
+  &lt;div&gt;Carte&lt;/div&gt;
+  &lt;div&gt;Carte&lt;/div&gt;
+&lt;/div&gt;</pre>
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-3 gap-3 rounded-2xl border-2 border-dashed border-emerald-500 p-4 text-lg">
+        <span class="rounded-lg bg-emerald-600 p-4 text-center">1</span><span class="rounded-lg bg-emerald-600 p-4 text-center">2</span><span class="rounded-lg bg-emerald-600 p-4 text-center">3</span>
+        <span class="rounded-lg bg-emerald-600 p-4 text-center">4</span><span class="rounded-lg bg-emerald-600 p-4 text-center">5</span><span class="rounded-lg bg-emerald-600 p-4 text-center">6</span>
+      </div>
+      <p class="text-xl text-slate-300"><b class="text-emerald-400">md:</b> = à partir d'un écran moyen (responsive)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 18 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">07 · MINI-PROJET</p>
+  <h2 class="text-5xl font-bold">On code ensemble : <span class="text-yellow-400">le compteur</span></h2>
+  <div class="grid grid-cols-2 gap-8 items-center">
+    <div class="rounded-3xl bg-slate-800 p-10 flex flex-col items-center gap-6">
+      <p class="text-8xl font-black font-mono">0</p>
+      <div class="flex gap-4 text-3xl">
+        <span class="rounded-xl bg-red-500 px-6 py-3">−</span>
+        <span class="rounded-xl bg-slate-600 px-6 py-3">reset</span>
+        <span class="rounded-xl bg-emerald-500 px-6 py-3">+</span>
+      </div>
+    </div>
+    <ul class="text-2xl space-y-3">
+      <li>✅ <b>variable</b> <code class="text-pink-400">let</code> compteur</li>
+      <li>✅ <b>fonction</b> afficher()</li>
+      <li>✅ <b>condition</b> : rouge si &lt; 0</li>
+      <li>✅ <b>DOM</b> : textContent, classList</li>
+      <li>✅ <b>événements</b> : 3 boutons</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 19 -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-yellow-400 text-xl">RÉCAP</p>
+  <h2 class="text-5xl font-bold">La recette de toute interaction</h2>
+  <div class="grid grid-cols-4 gap-4 text-2xl">
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-5xl font-black text-yellow-400">1</p><p class="mt-3 font-bold">Sélectionner</p><p class="font-mono text-base text-slate-400 mt-2">querySelector</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-5xl font-black text-yellow-400">2</p><p class="mt-3 font-bold">Écouter</p><p class="font-mono text-base text-slate-400 mt-2">addEventListener</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-5xl font-black text-yellow-400">3</p><p class="mt-3 font-bold">Calculer</p><p class="font-mono text-base text-slate-400 mt-2">variables, if, fonctions</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-5xl font-black text-yellow-400">4</p><p class="mt-3 font-bold">Afficher</p><p class="font-mono text-base text-slate-400 mt-2">textContent, classList</p></div>
+  </div>
+</section>
+
+<!-- 20 -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-yellow-400 text-xl">QUIZ ORAL</p>
+  <h2 class="text-5xl font-bold">5 questions, 5 minutes</h2>
+  <ol class="text-2xl space-y-4 list-decimal pl-8">
+    <li>Quand utiliser <code class="text-pink-400">let</code> plutôt que <code class="text-pink-400">const</code> ?</li>
+    <li>Que vaut <code class="text-yellow-400">"3" + 4</code> ?</li>
+    <li>Différence entre <code>==</code> et <code>===</code> ?</li>
+    <li>À quoi sert <code class="text-pink-400">return</code> ?</li>
+    <li>Pourquoi <code class="text-sky-400">e.preventDefault()</code> sur un formulaire ?</li>
+  </ol>
+  <p class="text-xl text-slate-500 mt-4">Demain : tableaux & boucles → on affiche des listes 🧾</p>
+</section>
+
+</main>
+
+<!-- ============ NAV ============ -->
+<div class="fixed bottom-0 inset-x-0 h-1 bg-slate-800"><div id="bar" class="h-full bg-yellow-400 transition-all"></div></div>
+<div id="count" class="fixed bottom-4 right-6 font-mono text-slate-500 text-sm"></div>
+<div class="fixed bottom-4 left-6 font-mono text-slate-600 text-sm">← → espace · F plein écran</div>
+
+<script>
+  const slides = document.querySelectorAll("section");
+  let i = Math.min(Math.max((Number(location.hash.slice(1)) || 1) - 1, 0), slides.length - 1);
+
+  function show() {
+    slides.forEach((s, n) => s.classList.toggle("active", n === i));
+    document.querySelector("#count").textContent = `${i + 1} / ${slides.length}`;
+    document.querySelector("#bar").style.width = `${((i + 1) / slides.length) * 100}%`;
+    history.replaceState(null, "", `#${i + 1}`);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", " ", "PageDown"].includes(e.key)) i = Math.min(i + 1, slides.length - 1);
+    if (["ArrowLeft", "PageUp"].includes(e.key)) i = Math.max(i - 1, 0);
+    if (e.key === "f") document.documentElement.requestFullscreen?.();
+    show();
+  });
+  document.addEventListener("click", (e) => {
+    i = e.clientX > innerWidth / 2 ? Math.min(i + 1, slides.length - 1) : Math.max(i - 1, 0);
+    show();
+  });
+  show();
+</script>
+</body>
+</html>

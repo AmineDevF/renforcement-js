@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 1 · Résultat final du live coding</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex flex-wrap items-center justify-center gap-10 p-8">
+
+  <!-- ===== Carte profil (blocs 4 et 5) ===== -->
+  <div id="carte" class="bg-white rounded-2xl shadow p-6 w-80 transition-colors">
+    <div class="flex items-center justify-between">
+      <h2 id="nom" class="text-xl font-bold">Prénom</h2>
+      <span id="badge" class="text-xs bg-slate-200 rounded-full px-3 py-1">apprenant</span>
+    </div>
+
+    <div class="grid grid-cols-3 gap-2 mt-4 text-center text-slate-800">
+      <div class="bg-slate-100 rounded-lg p-2"><p id="age" class="font-bold">0</p><p class="text-xs">âge</p></div>
+      <div class="bg-slate-100 rounded-lg p-2"><p class="font-bold">DWWM</p><p class="text-xs">filière</p></div>
+      <div class="bg-slate-100 rounded-lg p-2"><p class="font-bold">A1</p><p class="text-xs">année</p></div>
+    </div>
+
+    <input id="champ" class="border rounded-lg w-full mt-4 p-2 text-slate-800" placeholder="Ton prénom">
+    <div class="flex gap-2 mt-3">
+      <button id="btnValider" class="flex-1 bg-indigo-600 text-white rounded-lg py-2">Valider</button>
+      <button id="btnTheme" class="flex-1 bg-slate-800 text-white rounded-lg py-2">Thème</button>
+    </div>
+  </div>
+
+  <!-- ===== Compteur (bloc 6) ===== -->
+  <div class="bg-slate-800 rounded-3xl p-10 flex flex-col items-center gap-6">
+    <p id="valeur" class="text-8xl font-black text-white font-mono">0</p>
+    <div class="flex gap-3">
+      <button id="moins" class="bg-red-500 text-white text-2xl rounded-xl px-6 py-3">−</button>
+      <button id="reset" class="bg-slate-600 text-white text-2xl rounded-xl px-6 py-3">reset</button>
+      <button id="plus" class="bg-emerald-500 text-white text-2xl rounded-xl px-6 py-3">+</button>
+    </div>
+  </div>
+
+<script>
+  // ---------- Carte profil ----------
+  const nom = document.querySelector("#nom");
+  const age = document.querySelector("#age");
+  const badge = document.querySelector("#badge");
+  const carte = document.querySelector("#carte");
+  const champ = document.querySelector("#champ");
+
+  nom.textContent = "Yassine";
+  age.textContent = 19;
+
+  if (Number(age.textContent) >= 18) {
+    badge.textContent = "majeur";
+    badge.classList.remove("bg-slate-200");
+    badge.classList.add("bg-emerald-200", "text-emerald-800");
+  }
+
+  document.querySelector("#btnValider").addEventListener("click", () => {
+    const valeur = champ.value.trim();
+    if (valeur === "") {
+      champ.classList.add("border-red-500");
+      return;
+    }
+    champ.classList.remove("border-red-500");
+    nom.textContent = valeur;
+    champ.value = "";
+  });
+
+  champ.addEventListener("input", () => {
+    nom.textContent = champ.value || "Prénom";
+  });
+
+  document.querySelector("#btnTheme").addEventListener("click", () => {
+    carte.classList.toggle("bg-white");
+    carte.classList.toggle("bg-slate-800");
+    carte.classList.toggle("text-white");
+  });
+
+  // ---------- Compteur ----------
+  let compteur = 0;
+  const valeur = document.querySelector("#valeur");
+
+  function afficher() {
+    valeur.textContent = compteur;
+    valeur.classList.toggle("text-red-400", compteur < 0);
+    valeur.classList.toggle("text-emerald-400", compteur > 0);
+    valeur.classList.toggle("text-white", compteur === 0);
+  }
+
+  document.querySelector("#plus").addEventListener("click", () => { compteur++; afficher(); });
+  document.querySelector("#moins").addEventListener("click", () => { compteur--; afficher(); });
+  document.querySelector("#reset").addEventListener("click", () => { compteur = 0; afficher(); });
+</script>
+</body>
+</html>
