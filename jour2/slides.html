@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 2 · Tableaux, objets & fonctions d'ordre supérieur</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style>
+  html,body{height:100%;margin:0}
+  body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif}
+  section{display:none}
+  section.active{display:flex}
+  pre{font-family:ui-monospace,"Cascadia Code","Fira Code",Consolas,monospace;line-height:1.6}
+  .t-c{color:#64748b}.t-s{color:#86efac}.t-k{color:#f472b6}.t-n{color:#fbbf24}.t-f{color:#60a5fa}
+</style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+<main id="deck" class="h-full">
+
+<!-- 1 · TITRE -->
+<section class="h-full flex-col items-center justify-center text-center gap-6 px-10">
+  <span class="text-sky-400 font-mono text-xl tracking-widest">DWWM · SEMAINE DE RENFORCEMENT · JOUR 2</span>
+  <h1 class="text-7xl font-black">Tableaux, objets<br>&amp; <span class="text-sky-400">fonctions d'ordre supérieur</span></h1>
+  <div class="flex flex-wrap justify-center gap-3 mt-6 text-lg font-mono">
+    <span class="px-4 py-2 rounded-lg bg-slate-800">push</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">includes</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">join</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">...spread</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">forEach</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">map</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">filter</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">find</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">reduce</span>
+  </div>
+</section>
+
+<!-- 2 · PLAN -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <h2 class="text-5xl font-bold">Le chemin d'aujourd'hui</h2>
+  <div class="grid grid-cols-3 gap-6 text-xl">
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-sky-400">
+      <p class="font-mono text-sky-400">PARTIE 1</p><p class="text-2xl font-bold mt-2">Les tableaux</p>
+      <p class="text-slate-400 mt-2 font-mono text-base">[ ] · push · includes · join · for</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-violet-400">
+      <p class="font-mono text-violet-400">PARTIE 2</p><p class="text-2xl font-bold mt-2">Les objets</p>
+      <p class="text-slate-400 mt-2 font-mono text-base">{ } · tableau d'objets · ...spread</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-emerald-400">
+      <p class="font-mono text-emerald-400">PARTIE 3</p><p class="text-2xl font-bold mt-2">Ordre supérieur</p>
+      <p class="text-slate-400 mt-2 font-mono text-base">forEach · map · filter · find · reduce</p>
+    </div>
+  </div>
+  <p class="text-2xl text-slate-400">Puis le TP : <b class="text-slate-100">📖 Mes sourates</b></p>
+</section>
+
+<!-- 3 · POURQUOI -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · TABLEAUX</p>
+  <h2 class="text-5xl font-bold">Pourquoi un tableau ?</h2>
+  <div class="grid grid-cols-2 gap-8">
+    <div><p class="text-xl text-red-400 mb-3">❌ Une variable par valeur</p>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-2xl">const fruit1 = "Pomme";
+const fruit2 = "Banane";
+const fruit3 = "Kiwi";
+// et s'il y en a 100 ?</pre></div>
+    <div><p class="text-xl text-emerald-400 mb-3">✅ Une liste</p>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-2xl">const fruits = ["Pomme", "Banane", "Kiwi"];</pre></div>
+  </div>
+  <p class="text-2xl text-slate-400">Un tableau = <b class="text-slate-100">une liste ordonnée</b> de valeurs.</p>
+</section>
+
+<!-- 4 · LIRE -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · TABLEAUX</p>
+  <h2 class="text-5xl font-bold">Lire : index &amp; length</h2>
+  <div class="flex gap-3 font-mono text-2xl">
+    <div class="text-center"><div class="rounded-xl bg-sky-600 px-8 py-4">"Pomme"</div><p class="text-sky-400 mt-2">0</p></div>
+    <div class="text-center"><div class="rounded-xl bg-sky-600 px-8 py-4">"Banane"</div><p class="text-sky-400 mt-2">1</p></div>
+    <div class="text-center"><div class="rounded-xl bg-sky-600 px-8 py-4">"Kiwi"</div><p class="text-sky-400 mt-2">2</p></div>
+  </div>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">fruits[0]                  // "Pomme"
+fruits.length              // 3
+fruits[fruits.length - 1]  // "Kiwi" (le dernier)</pre>
+  <p class="text-2xl text-slate-400">⚠️ On compte à partir de <b class="text-yellow-400">0</b>.</p>
+</section>
+
+<!-- 5 · PUSH -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · TABLEAUX</p>
+  <h2 class="text-5xl font-bold">Ajouter &amp; retirer</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const fruits = ["Pomme", "Banane"];
+
+fruits.push("Kiwi");    // ajoute à la fin
+// ["Pomme", "Banane", "Kiwi"]
+
+fruits.pop();           // retire le dernier
+// ["Pomme", "Banane"]
+
+fruits[0] = "Fraise";   // remplace
+// ["Fraise", "Banane"]</pre>
+  <p class="text-2xl text-slate-400"><code class="text-pink-400">const</code> sur un tableau : on peut changer <b class="text-slate-100">son contenu</b>, pas le remplacer.</p>
+</section>
+
+<!-- 6 · INCLUDES -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · TABLEAUX</p>
+  <h2 class="text-5xl font-bold"><code class="text-yellow-400">includes</code> : est-ce qu'il contient ?</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const fruits = ["Pomme", "Banane", "Kiwi"];
+
+fruits.includes("Kiwi");    // true
+fruits.includes("Mangue");  // false
+
+if (!fruits.includes("Mangue")) {
+  fruits.push("Mangue");    // pas de doublon
+}</pre>
+  <p class="text-2xl text-slate-400">Renvoie toujours un <b class="text-slate-100">boolean</b>. Parfait dans un <code class="text-pink-400">if</code>.</p>
+</section>
+
+<!-- 7 · JOIN -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · TABLEAUX</p>
+  <h2 class="text-5xl font-bold"><code class="text-yellow-400">join</code> : tableau → texte</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const fruits = ["Pomme", "Banane", "Kiwi"];
+
+fruits.join(", ");   // "Pomme, Banane, Kiwi"
+fruits.join(" - ");  // "Pomme - Banane - Kiwi"
+fruits.join("");     // "PommeBananeKiwi"</pre>
+  <p class="text-2xl text-slate-400">On choisit le <b class="text-slate-100">séparateur</b>. <code>join("")</code> nous servira pour le HTML.</p>
+</section>
+
+<!-- 8 · FOR -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · TABLEAUX</p>
+  <h2 class="text-5xl font-bold">Parcourir avec <code class="text-pink-400">for</code></h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const fruits = ["Pomme", "Banane", "Kiwi"];
+
+for (let i = 0; i < fruits.length; i++) {
+  console.log(i, fruits[i]);
+}
+// 0 "Pomme"
+// 1 "Banane"
+// 2 "Kiwi"</pre>
+  <div class="flex gap-4 text-2xl font-mono">
+    <span class="rounded-xl bg-slate-800 px-5 py-3">départ <b class="text-yellow-400">i = 0</b></span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3">tant que <b class="text-yellow-400">i &lt; length</b></span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3">puis <b class="text-yellow-400">i++</b></span>
+  </div>
+</section>
+
+<!-- 9 · OBJET -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · OBJETS</p>
+  <h2 class="text-5xl font-bold">Un objet = une fiche</h2>
+  <div class="grid grid-cols-2 gap-8 items-center">
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const eleve = {
+  nom: "Sara",
+  note: 15,
+  present: true
+};</pre>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">eleve.nom        // "Sara"
+eleve.note = 16; // modifier
+eleve.ville = "Casa"; // ajouter</pre>
+  </div>
+  <div class="flex gap-4 text-2xl">
+    <span class="rounded-xl bg-violet-900/60 px-5 py-3">tableau <b>[ ]</b> → une liste</span>
+    <span class="rounded-xl bg-violet-900/60 px-5 py-3">objet <b>{ }</b> → une fiche avec des <b>clés</b></span>
+  </div>
+</section>
+
+<!-- 10 · TABLEAU D'OBJETS -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · OBJETS</p>
+  <h2 class="text-5xl font-bold">Tableau d'objets = une vraie base de données</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const eleves = [
+  { nom: "Sara", note: 15 },
+  { nom: "Omar", note: 8 },
+  { nom: "Hiba", note: 12 }
+];
+
+eleves[1].nom      // "Omar"
+eleves.length      // 3</pre>
+  <p class="text-2xl text-slate-400">Lire : <b class="text-sky-400">[index]</b> pour la ligne, puis <b class="text-violet-400">.clé</b> pour la case.</p>
+</section>
+
+<!-- 11 · SPREAD -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · OBJETS</p>
+  <h2 class="text-5xl font-bold">Spread <code class="text-yellow-400">...</code> = déplier</h2>
+  <div class="grid grid-cols-2 gap-8">
+    <div><p class="text-xl text-slate-400 mb-3">Tableaux</p>
+<pre class="js bg-slate-900 rounded-2xl p-6 text-2xl">const a = [1, 2];
+const b = [3, 4];
+
+const copie = [...a];      // [1, 2]
+const tout = [...a, ...b]; // [1, 2, 3, 4]
+const plus = [...a, 99];   // [1, 2, 99]</pre></div>
+    <div><p class="text-xl text-slate-400 mb-3">Objets</p>
+<pre class="js bg-slate-900 rounded-2xl p-6 text-2xl">const sara = { nom: "Sara", note: 15 };
+
+const saraBis = { ...sara, note: 18 };
+// { nom: "Sara", note: 18 }</pre></div>
+  </div>
+  <p class="text-2xl text-slate-400">Crée une <b class="text-slate-100">copie</b> : l'original ne bouge pas.</p>
+</section>
+
+<!-- 12 · PAUSE -->
+<section class="h-full flex-col items-center justify-center gap-6">
+  <p class="text-9xl">☕</p>
+  <h2 class="text-6xl font-bold">Pause · 10 min</h2>
+  <p class="text-2xl text-slate-400">Ensuite : les fonctions qui travaillent pour nous</p>
+</section>
+
+<!-- 13 · CALLBACK -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold">Une fonction… qu'on donne à une fonction</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const direBonjour = (nom) => console.log(`Bonjour ${nom}`);
+
+["Sara", "Omar"].forEach(direBonjour);
+
+// ou directement :
+["Sara", "Omar"].forEach((nom) => console.log(`Bonjour ${nom}`));</pre>
+  <p class="text-2xl text-slate-400">La méthode fait la boucle. <b class="text-slate-100">Toi, tu dis juste quoi faire avec chaque élément.</b></p>
+</section>
+
+<!-- 14 · FOREACH -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">forEach</code> → faire une action</h2>
+  <div class="grid grid-cols-2 gap-8">
+<pre class="js bg-slate-900 rounded-2xl p-6 text-2xl">// avec for
+for (let i = 0; i < notes.length; i++) {
+  console.log(notes[i]);
+}</pre>
+<pre class="js bg-slate-900 rounded-2xl p-6 text-2xl">// avec forEach
+notes.forEach((note) => {
+  console.log(note);
+});</pre>
+  </div>
+  <p class="text-2xl text-slate-400">Ne renvoie <b class="text-slate-100">rien</b>. Sert à afficher, ajouter dans la page…</p>
+</section>
+
+<!-- 15 · MAP -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">map</code> → transformer chaque élément</h2>
+  <div class="flex items-center gap-6 text-4xl">
+    <span>🍎 🍌 🥝</span><span class="text-emerald-400 font-mono text-2xl">— map →</span><span>🧃 🧃 🧃</span>
+  </div>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const notes = [10, 15, 8];
+const doubles = notes.map((n) => n * 2);   // [20, 30, 16]
+
+const noms = eleves.map((e) => e.nom);     // ["Sara", "Omar", "Hiba"]</pre>
+  <p class="text-2xl text-slate-400">Nouveau tableau, <b class="text-slate-100">même longueur</b>.</p>
+</section>
+
+<!-- 16 · FILTER -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">filter</code> → garder certains</h2>
+  <div class="flex items-center gap-6 text-4xl">
+    <span>🍎 🍌 🍎 🥝</span><span class="text-emerald-400 font-mono text-2xl">— filter 🍎 →</span><span>🍎 🍎</span>
+  </div>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const notes = [10, 15, 8];
+const bonnes = notes.filter((n) => n >= 10);        // [10, 15]
+
+const recus = eleves.filter((e) => e.note >= 10);   // Sara, Hiba</pre>
+  <p class="text-2xl text-slate-400">Garde ceux où la condition est <b class="text-emerald-400">true</b>. Nouveau tableau, souvent plus court.</p>
+</section>
+
+<!-- 17 · FIND -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">find</code> → trouver le premier</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const omar = eleves.find((e) => e.nom === "Omar");
+// { nom: "Omar", note: 8 }
+
+const inconnu = eleves.find((e) => e.nom === "Zak");
+// undefined</pre>
+  <div class="flex gap-4 text-2xl">
+    <span class="rounded-xl bg-slate-800 px-5 py-3"><b class="text-emerald-400">filter</b> → un tableau</span>
+    <span class="rounded-xl bg-slate-800 px-5 py-3"><b class="text-emerald-400">find</b> → un seul élément (ou undefined)</span>
+  </div>
+</section>
+
+<!-- 18 · REDUCE -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">reduce</code> → tout résumer en une valeur</h2>
+  <div class="flex items-center gap-6 text-4xl">
+    <span>🍎 🍌 🥝</span><span class="text-emerald-400 font-mono text-2xl">— reduce →</span><span>🥗</span>
+  </div>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const notes = [10, 15, 8];
+const total = notes.reduce((somme, n) => somme + n, 0);
+// 33</pre>
+  <div class="grid grid-cols-4 gap-3 font-mono text-xl text-center">
+    <div class="rounded-xl bg-slate-800 p-3">départ<br><b class="text-yellow-400">0</b></div>
+    <div class="rounded-xl bg-slate-800 p-3">0 + 10<br><b class="text-yellow-400">10</b></div>
+    <div class="rounded-xl bg-slate-800 p-3">10 + 15<br><b class="text-yellow-400">25</b></div>
+    <div class="rounded-xl bg-slate-800 p-3">25 + 8<br><b class="text-yellow-400">33</b></div>
+  </div>
+</section>
+
+<!-- 19 · RÉSUMÉ -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">RÉSUMÉ</p>
+  <h2 class="text-5xl font-bold">Laquelle choisir ?</h2>
+  <table class="text-2xl w-full">
+    <thead class="text-slate-400 text-lg"><tr><th class="text-left pb-3">Je veux…</th><th class="text-left pb-3">Méthode</th><th class="text-left pb-3">Elle renvoie</th></tr></thead>
+    <tbody class="divide-y divide-slate-800">
+      <tr><td class="py-3">faire une action pour chacun</td><td class="font-mono text-emerald-400">forEach</td><td>rien</td></tr>
+      <tr><td class="py-3">transformer chacun</td><td class="font-mono text-emerald-400">map</td><td>tableau, même taille</td></tr>
+      <tr><td class="py-3">garder certains</td><td class="font-mono text-emerald-400">filter</td><td>tableau, plus court</td></tr>
+      <tr><td class="py-3">trouver un seul</td><td class="font-mono text-emerald-400">find</td><td>un élément / undefined</td></tr>
+      <tr><td class="py-3">calculer un total</td><td class="font-mono text-emerald-400">reduce</td><td>une valeur</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 20 · CHAÎNER -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · ORDRE SUPÉRIEUR</p>
+  <h2 class="text-5xl font-bold">Les enchaîner</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">// Les noms des élèves reçus, en une phrase
+const phrase = eleves
+  .filter((e) => e.note >= 10)   // 1. garder
+  .map((e) => e.nom)             // 2. transformer
+  .join(", ");                   // 3. coller
+
+// "Sara, Hiba"</pre>
+  <p class="text-2xl text-slate-400">Une étape par ligne = <b class="text-slate-100">code lisible</b>.</p>
+</section>
+
+<!-- 21 · DOM -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">BONUS · DANS LA PAGE</p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">map</code> + <code class="text-yellow-400">join("")</code> = du HTML</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">const liste = document.querySelector("#liste");
+
+liste.innerHTML = eleves
+  .map((e) => `&lt;li&gt;${e.nom} : ${e.note}/20&lt;/li&gt;`)
+  .join("");</pre>
+  <p class="text-2xl text-slate-400">Sans <code>join("")</code>, des <b class="text-red-400">virgules</b> apparaissent dans la page.</p>
+</section>
+
+<!-- 22 · QUIZ -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-sky-400 text-xl">QUIZ ORAL</p>
+  <h2 class="text-5xl font-bold">À vous !</h2>
+  <ol class="text-2xl space-y-4 list-decimal pl-8">
+    <li><code class="text-yellow-400">["a", "b", "c"].length</code> ?</li>
+    <li>Ajouter <code>"d"</code> à la fin d'un tableau ?</li>
+    <li><code class="text-yellow-400">[1, 2, 3].map((n) =&gt; n + 1)</code> ?</li>
+    <li>filter ou find pour <b>un seul</b> élève ?</li>
+    <li><code class="text-yellow-400">[5, 5, 5].reduce((s, n) =&gt; s + n, 0)</code> ?</li>
+    <li>Copier un tableau sans toucher l'original ?</li>
+  </ol>
+</section>
+
+<!-- 23 · TP -->
+<section class="h-full flex-col items-center justify-center text-center gap-6 px-10">
+  <p class="text-9xl">📖</p>
+  <h2 class="text-6xl font-black">TP : Mes sourates</h2>
+  <p class="text-2xl text-slate-400">Tout ce qu'on vient de voir, sur une seule liste de sourates.</p>
+</section>
+
+</main>
+
+<div class="fixed bottom-0 inset-x-0 h-1 bg-slate-800"><div id="bar" class="h-full bg-sky-400 transition-all"></div></div>
+<div id="count" class="fixed bottom-4 right-6 font-mono text-slate-500 text-sm"></div>
+<div class="fixed bottom-4 left-6 font-mono text-slate-600 text-sm">← → espace · F plein écran</div>
+
+<script>
+  // ----- Coloration du code -----
+  document.querySelectorAll("pre.js").forEach((pre) => {
+    const html = pre.innerHTML;
+    pre.innerHTML = html.replace(
+      /(\/\/.*$)|(`[^`]*`|"[^"\n]*")|\b(const|let|function|return|for|if|else|true|false|undefined)\b|\b(\d+)\b|\.(\w+)(?=\()/gm,
+      (m, com, str, mot, num, meth) => {
+        if (com) return `<span class="t-c">${com}</span>`;
+        if (str) return `<span class="t-s">${str}</span>`;
+        if (mot) return `<span class="t-k">${mot}</span>`;
+        if (num) return `<span class="t-n">${num}</span>`;
+        if (meth) return `.<span class="t-f">${meth}</span>`;
+        return m;
+      }
+    );
+  });
+
+  // ----- Navigation -----
+  const slides = document.querySelectorAll("section");
+  let i = Math.min(Math.max((Number(location.hash.slice(1)) || 1) - 1, 0), slides.length - 1);
+
+  function show() {
+    slides.forEach((s, n) => s.classList.toggle("active", n === i));
+    document.querySelector("#count").textContent = `${i + 1} / ${slides.length}`;
+    document.querySelector("#bar").style.width = `${((i + 1) / slides.length) * 100}%`;
+    history.replaceState(null, "", `#${i + 1}`);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", " ", "PageDown"].includes(e.key)) i = Math.min(i + 1, slides.length - 1);
+    if (["ArrowLeft", "PageUp"].includes(e.key)) i = Math.max(i - 1, 0);
+    if (e.key === "f") document.documentElement.requestFullscreen?.();
+    show();
+  });
+  document.addEventListener("click", (e) => {
+    i = e.clientX > innerWidth / 2 ? Math.min(i + 1, slides.length - 1) : Math.max(i - 1, 0);
+    show();
+  });
+  show();
+</script>
+</body>
+</html>

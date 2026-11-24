@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jour 2 · Mes sourates</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-emerald-50 min-h-screen p-6">
+  <div class="max-w-2xl mx-auto flex flex-col gap-4">
+
+    <h1 class="text-3xl font-black">📖 Mes sourates</h1>
+
+    <!-- GRID : 3 statistiques de même largeur -->
+    <section class="grid grid-cols-3 gap-3">
+      <div class="bg-white rounded-2xl shadow p-4"><p class="text-xs text-slate-500">Sourates</p><p id="nb" class="text-2xl font-black">0</p></div>
+      <div class="bg-white rounded-2xl shadow p-4"><p class="text-xs text-slate-500">Durée totale</p><p class="text-2xl font-black"><span id="duree">0</span> min</p></div>
+      <div class="bg-white rounded-2xl shadow p-4"><p class="text-xs text-slate-500">Favoris</p><p id="favoris" class="text-2xl font-black">0</p></div>
+    </section>
+
+    <!-- FLEX + flex-wrap : les boutons passent à la ligne si besoin -->
+    <div class="flex flex-wrap gap-2">
+      <button class="filtre bg-emerald-600 text-white rounded-full px-4 py-1" data-type="tous">Tous</button>
+      <button class="filtre bg-white rounded-full px-4 py-1 shadow-sm" data-type="favoris">❤️ Favoris</button>
+      <button class="filtre bg-white rounded-full px-4 py-1 shadow-sm" data-type="mecquoise">Mecquoises</button>
+      <button class="filtre bg-white rounded-full px-4 py-1 shadow-sm" data-type="médinoise">Médinoises</button>
+    </div>
+
+    <!-- La liste : remplie par JavaScript -->
+    <ul id="liste" class="bg-white rounded-2xl shadow divide-y divide-slate-100"></ul>
+
+    <!-- GRID : formulaire, 1 colonne sur mobile, 4 sur écran moyen -->
+    <form id="form" class="bg-white rounded-2xl shadow p-4 grid grid-cols-1 md:grid-cols-4 gap-3">
+      <input id="nomChamp" placeholder="Sourate" class="border border-slate-300 rounded-lg px-3 py-2">
+      <input id="recitateur" placeholder="Récitateur" class="border border-slate-300 rounded-lg px-3 py-2">
+      <input id="dureeChamp" type="number" placeholder="Durée (min)" class="border border-slate-300 rounded-lg px-3 py-2">
+      <select id="type" class="border border-slate-300 rounded-lg px-3 py-2">
+        <option value="mecquoise">mecquoise</option>
+        <option value="médinoise">médinoise</option>
+      </select>
+      <button class="md:col-span-4 bg-emerald-600 text-white rounded-lg py-2 font-semibold">Ajouter</button>
+      <p id="erreur" class="md:col-span-4 text-sm text-red-600 hidden"></p>
+    </form>
+
+    <!--
+      Modèle d'une ligne (à fabriquer en JS) :
+      <li class="flex items-center gap-3 p-3">
+        <span class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">📖</span>
+        <div class="flex-1">
+          <p class="font-semibold">Al-Fatiha</p>
+          <p class="text-sm text-slate-500">Al-Afasy · mecquoise</p>
+        </div>
+        <span class="text-sm text-slate-500">1 min</span>
+        <button class="coeur text-xl" data-nom="Al-Fatiha">❤️</button>   (🤍 si pas favori)
+      </li>
+    -->
+  </div>
+
+<script>
+// ===== Les données (ne pas modifier) =====
+const recitateurs = ["Al-Afasy", "Al-Husary", "Abdul Basit"];
+
+const sourates = [
+  { nom: "Al-Fatiha",  recitateur: "Al-Afasy",    duree: 1,  type: "mecquoise", favori: true },
+  { nom: "Al-Mulk",    recitateur: "Al-Husary",   duree: 9,  type: "mecquoise", favori: false },
+  { nom: "Yasin",      recitateur: "Abdul Basit", duree: 15, type: "mecquoise", favori: true },
+  { nom: "Al-Hujurat", recitateur: "Al-Afasy",    duree: 8,  type: "médinoise", favori: true },
+  { nom: "An-Nasr",    recitateur: "Al-Husary",   duree: 1,  type: "médinoise", favori: false }
+];
+
+const nouveautes = [
+  { nom: "Al-Kahf", recitateur: "Al-Ghamidi", duree: 35, type: "mecquoise", favori: false }
+];
+
+// ======================================================
+// PARTIE A · CONSOLE
+// ======================================================
+
+// 1. push · includes · join
+
+
+// 2. for
+
+
+// 3. objet
+
+
+// 4. spread
+
+
+// 5. forEach
+
+
+// 6. map
+
+
+// 7. filter
+
+
+// 8. find
+
+
+// 9. reduce
+
+
+// 10. filter → map → join
+
+
+// ======================================================
+// PARTIE B · PAGE
+// ======================================================
+
+// 11. afficher(liste)
+
+
+// 12. statistiques (dans afficher)
+
+
+// 13. filtres
+
+
+// 14. ajouter (submit)
+
+</script>
+</body>
+</html>
