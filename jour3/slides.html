@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 3 · Axios & async/await</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<style>
+  html,body{height:100%;margin:0}
+  body{font-family:ui-sans-serif,system-ui,"Segoe UI",Roboto,sans-serif}
+  section{display:none}
+  section.active{display:flex}
+  pre,.out{font-family:ui-monospace,"Cascadia Code","Fira Code",Consolas,monospace;line-height:1.6}
+  .t-c{color:#64748b}.t-s{color:#86efac}.t-k{color:#f472b6}.t-n{color:#fbbf24}.t-f{color:#60a5fa}.t-a{color:#c4b5fd;font-weight:700}
+  .out:empty::before{content:"Clique sur ▶ Exécuter";color:#475569}
+</style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+<main id="deck" class="h-full">
+
+<!-- 1 · TITRE -->
+<section class="h-full flex-col items-center justify-center text-center gap-6 px-10">
+  <span class="text-violet-400 font-mono text-xl tracking-widest">DWWM · SEMAINE DE RENFORCEMENT · JOUR 3</span>
+  <h1 class="text-7xl font-black">Parler à un serveur<br>avec <span class="text-violet-400">Axios</span> &amp; <span class="text-violet-400">async/await</span></h1>
+  <div class="flex flex-wrap justify-center gap-3 mt-6 text-lg font-mono">
+    <span class="px-4 py-2 rounded-lg bg-slate-800">API</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">JSON</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">async</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">await</span>
+    <span class="px-4 py-2 rounded-lg bg-slate-800">try / catch</span>
+    <span class="px-4 py-2 rounded-lg bg-emerald-900 text-emerald-300">GET</span>
+    <span class="px-4 py-2 rounded-lg bg-sky-900 text-sky-300">POST</span>
+    <span class="px-4 py-2 rounded-lg bg-amber-900 text-amber-300">PUT</span>
+    <span class="px-4 py-2 rounded-lg bg-rose-900 text-rose-300">DELETE</span>
+  </div>
+</section>
+
+<!-- 2 · PLAN -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <h2 class="text-5xl font-bold">Le chemin d'aujourd'hui</h2>
+  <div class="grid grid-cols-3 gap-6 text-xl">
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-sky-400">
+      <p class="font-mono text-sky-400">PARTIE 1</p><p class="text-2xl font-bold mt-2">C'est quoi une API ?</p>
+      <p class="text-slate-400 mt-2 font-mono text-base">serveur · requête · JSON · 4 verbes</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-violet-400">
+      <p class="font-mono text-violet-400">PARTIE 2</p><p class="text-2xl font-bold mt-2">async / await</p>
+      <p class="text-slate-400 mt-2 font-mono text-base">attendre · ordre · return · try/catch</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-emerald-400">
+      <p class="font-mono text-emerald-400">PARTIE 3</p><p class="text-2xl font-bold mt-2">Axios</p>
+      <p class="text-slate-400 mt-2 font-mono text-base">get · post · put · delete</p>
+    </div>
+  </div>
+  <p class="text-2xl text-slate-400">Puis le TP : <b class="text-slate-100">✅ Ma to-do connectée</b></p>
+  <p class="text-lg text-slate-500">💡 Les blocs avec <span class="text-violet-300">▶ Exécuter</span> tournent pour de vrai (il faut Internet).</p>
+</section>
+
+<!-- ===================== PARTIE 1 ===================== -->
+
+<!-- 3 · API -->
+<section class="h-full flex-col justify-center px-24 gap-10">
+  <p class="font-mono text-sky-400 text-xl">01 · API</p>
+  <h2 class="text-5xl font-bold">Une API, c'est un serveur qui répond</h2>
+  <div class="flex items-center justify-center gap-6 text-2xl">
+    <div class="rounded-2xl bg-slate-800 p-8 text-center w-64"><p class="text-6xl">💻</p><p class="font-bold mt-3">Ton JavaScript</p><p class="text-slate-400 text-lg">le client</p></div>
+    <div class="flex flex-col gap-6 font-mono text-xl">
+      <p class="text-emerald-400">── requête : GET /todos/1 ──▶</p>
+      <p class="text-violet-300">◀── réponse : { JSON } ──</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-8 text-center w-64"><p class="text-6xl">🗄️</p><p class="font-bold mt-3">Le serveur</p><p class="text-slate-400 text-lg">l'API</p></div>
+  </div>
+  <p class="text-2xl text-slate-400 text-center">🍽️ Comme au restaurant : tu <b class="text-slate-100">commandes</b> (requête), la cuisine <b class="text-slate-100">prépare</b>, le serveur <b class="text-slate-100">t'apporte</b> le plat (réponse).</p>
+</section>
+
+<!-- 4 · VERBES -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · API</p>
+  <h2 class="text-5xl font-bold">4 verbes pour tout faire</h2>
+  <table class="text-2xl w-full">
+    <thead class="text-slate-500 text-lg text-left"><tr><th class="pb-4">Verbe</th><th class="pb-4">Je veux…</th><th class="pb-4">Exemple</th></tr></thead>
+    <tbody class="divide-y divide-slate-800">
+      <tr><td class="py-4"><span class="font-mono font-bold rounded-lg bg-emerald-900 text-emerald-300 px-4 py-1">GET</span></td><td>📖 <b>lire</b></td><td class="font-mono text-slate-300">GET /todos/1</td></tr>
+      <tr><td class="py-4"><span class="font-mono font-bold rounded-lg bg-sky-900 text-sky-300 px-4 py-1">POST</span></td><td>➕ <b>créer</b></td><td class="font-mono text-slate-300">POST /todos</td></tr>
+      <tr><td class="py-4"><span class="font-mono font-bold rounded-lg bg-amber-900 text-amber-300 px-4 py-1">PUT</span></td><td>✏️ <b>modifier</b></td><td class="font-mono text-slate-300">PUT /todos/1</td></tr>
+      <tr><td class="py-4"><span class="font-mono font-bold rounded-lg bg-rose-900 text-rose-300 px-4 py-1">DELETE</span></td><td>🗑️ <b>supprimer</b></td><td class="font-mono text-slate-300">DELETE /todos/1</td></tr>
+    </tbody>
+  </table>
+  <p class="text-2xl text-slate-400">Le <b class="text-slate-100">verbe</b> dit quoi faire, l'<b class="text-slate-100">adresse</b> dit sur quoi.</p>
+</section>
+
+<!-- 5 · JSON -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · API</p>
+  <h2 class="text-5xl font-bold">La réponse arrive en <span class="text-yellow-400">JSON</span></h2>
+  <div class="grid grid-cols-2 gap-8 items-center">
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">{
+  "userId": 1,
+  "id": 1,
+  "title": "delectus aut autem",
+  "completed": false
+}</pre>
+    <div class="text-2xl space-y-5 text-slate-300">
+      <p>✅ Ça ressemble à un <b class="text-slate-100">objet JS</b> (Jour 2).</p>
+      <p>✅ Une liste ? Un <b class="text-slate-100">tableau d'objets</b>.</p>
+      <p>✅ Donc on réutilise <code class="text-emerald-400">map</code>, <code class="text-emerald-400">filter</code>, <code class="text-emerald-400">find</code>…</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · L'API DU JOUR -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-sky-400 text-xl">01 · API</p>
+  <h2 class="text-5xl font-bold">L'API du jour : <span class="text-violet-400">JSONPlaceholder</span></h2>
+  <p class="font-mono text-3xl text-yellow-300">https://jsonplaceholder.typicode.com</p>
+  <div class="grid grid-cols-2 gap-6 text-2xl font-mono">
+    <div class="rounded-2xl bg-slate-800 p-6 space-y-2">
+      <p><span class="text-emerald-400">/todos</span> <span class="text-slate-500">→ 200 tâches</span></p>
+      <p><span class="text-emerald-400">/todos/5</span> <span class="text-slate-500">→ la tâche n°5</span></p>
+      <p><span class="text-emerald-400">/todos?userId=1</span> <span class="text-slate-500">→ ses 20 tâches</span></p>
+      <p><span class="text-emerald-400">/users/1</span> <span class="text-slate-500">→ un utilisateur</span></p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 text-xl font-sans space-y-3">
+      <p>🆓 Gratuite, <b>sans clé</b>, sans inscription</p>
+      <p>✅ Accepte GET, POST, PUT, DELETE</p>
+      <p class="text-amber-300">⚠️ C'est une <b>fausse</b> API : elle répond « OK » mais <b>n'enregistre rien</b>.</p>
+    </div>
+  </div>
+  <p class="text-2xl text-slate-400">👉 Colle <code class="text-yellow-300">/todos/1</code> dans ton navigateur : tu vois le JSON !</p>
+</section>
+
+<!-- ===================== PARTIE 2 ===================== -->
+
+<!-- 7 · LE PROBLÈME -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT</p>
+  <h2 class="text-5xl font-bold">Le problème : le serveur prend du temps</h2>
+  <div class="grid grid-cols-3 gap-6 text-2xl text-center">
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-6xl">🧾</p><p class="mt-3">Je commande au fast-food</p><p class="text-slate-400 text-lg mt-2">= j'envoie la requête</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-6xl">🎟️</p><p class="mt-3">On me donne un <b class="text-violet-300">ticket</b></p><p class="text-slate-400 text-lg mt-2">= une <b>Promise</b> (promesse)</p></div>
+    <div class="rounded-2xl bg-slate-800 p-6"><p class="text-6xl">🍔</p><p class="mt-3">J'<b class="text-violet-300">attends</b> mon numéro</p><p class="text-slate-400 text-lg mt-2">= <b>await</b></p></div>
+  </div>
+  <p class="text-2xl text-slate-400">Une <b class="text-slate-100">Promise</b>, c'est « le résultat arrivera <b class="text-slate-100">plus tard</b> ».</p>
+</section>
+
+<!-- 8 · SANS / AVEC AWAIT -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT</p>
+  <h2 class="text-5xl font-bold">Sans <code class="text-violet-400">await</code>, on a… le ticket</h2>
+  <div class="grid grid-cols-2 gap-8">
+    <div><p class="text-xl text-red-400 mb-3">❌ Sans await</p>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-2xl">const reponse = axios.get(url);
+console.log(reponse);
+// Promise {&lt;pending&gt;}
+// 😕 le ticket, pas le burger</pre></div>
+    <div><p class="text-xl text-emerald-400 mb-3">✅ Avec await</p>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-2xl">const reponse = await axios.get(url);
+console.log(reponse.data);
+// { id: 1, title: "..." }
+// 🍔 les vraies données</pre></div>
+  </div>
+  <p class="text-2xl text-slate-400"><code class="text-violet-400">await</code> = « <b class="text-slate-100">attends la réponse</b> avant de passer à la ligne suivante ».</p>
+</section>
+
+<!-- 9 · LA RECETTE -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT</p>
+  <h2 class="text-5xl font-bold">La recette en 3 étapes</h2>
+  <div class="grid grid-cols-[1fr_1.3fr] gap-10 items-center">
+    <ol class="text-2xl space-y-6">
+      <li><span class="font-black text-violet-400 text-4xl mr-3">1</span> <code class="text-pink-400">async</code> devant la fonction</li>
+      <li><span class="font-black text-violet-400 text-4xl mr-3">2</span> <code class="text-pink-400">await</code> devant ce qui prend du temps</li>
+      <li><span class="font-black text-violet-400 text-4xl mr-3">3</span> on <b>appelle</b> la fonction</li>
+    </ol>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-3xl">async function charger() {     // 1
+  const reponse = await axios.get(url); // 2
+  console.log(reponse.data);
+}
+
+charger();                     // 3</pre>
+  </div>
+  <p class="text-2xl text-slate-400">⚠️ <code class="text-pink-400">await</code> ne marche <b class="text-slate-100">que dans</b> une fonction <code class="text-pink-400">async</code>.</p>
+</section>
+
+<!-- 10 · EXEMPLE 1 -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT · EXEMPLE 1</p>
+  <h2 class="text-5xl font-bold">Attendre 2 secondes</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">function attendre(ms) {
+  return new Promise((ok) =&gt; setTimeout(ok, ms));
+}
+
+async function cafe() {
+  console.log("1. Je commande un café ☕");
+  await attendre(2000);
+  console.log("2. Café prêt ! 😋");
+}
+
+cafe();</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-xl text-slate-400">💡 <code>attendre</code> est donnée dans le starter : pas besoin de savoir l'écrire, juste de l'utiliser avec <code class="text-pink-400">await</code>.</p>
+</section>
+
+<!-- 11 · EXEMPLE 2 -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT · EXEMPLE 2</p>
+  <h2 class="text-5xl font-bold">Plusieurs await : chacun son tour</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function petitDej() {
+  console.log("☕ Je fais le café...");
+  await attendre(1000);
+  console.log("🍞 Je grille le pain...");
+  await attendre(1000);
+  console.log("✅ Bon appétit !");
+}
+
+petitDej();
+console.log("👀 Pendant ce temps, le reste continue");</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">🤔 Pourquoi « 👀 » s'affiche en <b class="text-slate-100">2e</b> ? La fonction attend, <b class="text-slate-100">pas</b> le reste de la page.</p>
+</section>
+
+<!-- 12 · EXEMPLE 3 -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT · EXEMPLE 3</p>
+  <h2 class="text-5xl font-bold">Une fonction async peut <code class="text-pink-400">return</code></h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function lancerDe() {
+  await attendre(1000);
+  return Math.ceil(Math.random() * 6);
+}
+
+async function jouer() {
+  console.log("🎲 Je lance le dé...");
+  const resultat = await lancerDe();
+  console.log("Tu as fait :", resultat);
+}
+
+jouer();</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">Une fonction <code class="text-pink-400">async</code> renvoie un ticket → on met <code class="text-pink-400">await</code> devant pour avoir la valeur.</p>
+</section>
+
+<!-- 13 · EXEMPLE 4 -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT · EXEMPLE 4</p>
+  <h2 class="text-5xl font-bold">Ça peut rater : <code class="text-pink-400">try</code> / <code class="text-pink-400">catch</code></h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function entrer(age) {
+  try {
+    await attendre(500);
+    if (age &lt; 18) throw new Error("Trop jeune !");
+    console.log("✅ Bienvenue,", age, "ans");
+  } catch (erreur) {
+    console.log("❌", erreur.message);
+  }
+}
+
+entrer(25);
+entrer(15);</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400"><code class="text-pink-400">try</code> = « essaie ». Si ça casse, on saute dans <code class="text-pink-400">catch</code> au lieu de faire planter la page.</p>
+</section>
+
+<!-- 14 · PIÈGES -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-violet-400 text-xl">02 · ASYNC / AWAIT</p>
+  <h2 class="text-5xl font-bold">Les 3 pièges classiques</h2>
+  <div class="grid grid-cols-3 gap-6 text-xl">
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-red-400">
+      <p class="font-bold text-2xl">Oublier <code class="text-pink-400">await</code></p>
+      <p class="font-mono text-red-300 mt-4">Promise {&lt;pending&gt;}</p>
+      <p class="text-slate-400 mt-4">→ ajoute <code>await</code> devant l'appel.</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-red-400">
+      <p class="font-bold text-2xl">Oublier <code class="text-pink-400">async</code></p>
+      <p class="font-mono text-red-300 mt-4">SyntaxError: await is only valid in async functions</p>
+      <p class="text-slate-400 mt-4">→ ajoute <code>async</code> devant <code>function</code>.</p>
+    </div>
+    <div class="rounded-2xl bg-slate-800 p-6 border-t-4 border-red-400">
+      <p class="font-bold text-2xl">Pas de <code class="text-pink-400">try/catch</code></p>
+      <p class="font-mono text-red-300 mt-4">Uncaught (in promise) AxiosError</p>
+      <p class="text-slate-400 mt-4">→ entoure l'appel d'un <code>try { } catch { }</code>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PARTIE 3 ===================== -->
+
+<!-- 15 · AXIOS -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS</p>
+  <h2 class="text-5xl font-bold">Axios : le facteur de ton JavaScript 📮</h2>
+  <p class="text-2xl text-slate-400">1. On l'ajoute dans le HTML, <b class="text-slate-100">avant</b> notre script :</p>
+<pre class="bg-slate-900 rounded-2xl p-6 text-2xl text-slate-300">&lt;script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  // notre code ici
+&lt;/script&gt;</pre>
+  <p class="text-2xl text-slate-400">2. On range l'adresse de l'API dans une constante :</p>
+<pre class="js bg-slate-900 rounded-2xl p-6 text-2xl">const API = "https://jsonplaceholder.typicode.com";</pre>
+  <p class="text-xl text-slate-500">Pourquoi Axios ? Une ligne par requête · le JSON est converti tout seul · les erreurs 404/500 vont dans <code>catch</code>.</p>
+</section>
+
+<!-- 16 · GET -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS · <span class="rounded bg-emerald-900 text-emerald-300 px-2">GET</span></p>
+  <h2 class="text-5xl font-bold"><code class="text-emerald-400">axios.get</code> : lire</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function lireTache() {
+  const reponse = await axios.get(`${API}/todos/1`);
+
+  console.log(reponse.status);     // 200
+  console.log(reponse.data.title);
+  console.log(reponse.data);
+}
+
+lireTache();</pre>
+    <div class="out bg-black rounded-2xl p-6 text-lg text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">Les données sont <b class="text-slate-100">toujours</b> dans <code class="text-yellow-400">reponse.data</code>.</p>
+</section>
+
+<!-- 17 · ANATOMIE -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS</p>
+  <h2 class="text-5xl font-bold">Ce que renvoie Axios</h2>
+  <div class="rounded-2xl border-2 border-dashed border-slate-600 p-8 font-mono text-2xl space-y-4">
+    <p class="text-slate-400">reponse = {</p>
+    <p class="pl-10"><span class="text-yellow-400 font-bold">data</span>: { id: 1, title: "..." }, <span class="font-sans text-emerald-400">← 99 % du temps, c'est ça qu'on veut</span></p>
+    <p class="pl-10"><span class="text-yellow-400 font-bold">status</span>: 200, <span class="font-sans text-slate-400">← le code de réponse</span></p>
+    <p class="pl-10 text-slate-500">headers, config, request… <span class="font-sans">← on ignore</span></p>
+    <p class="text-slate-400">}</p>
+  </div>
+  <div class="flex gap-4 text-xl font-mono">
+    <span class="rounded-lg bg-emerald-900 text-emerald-300 px-4 py-2">200 OK</span>
+    <span class="rounded-lg bg-sky-900 text-sky-300 px-4 py-2">201 Créé</span>
+    <span class="rounded-lg bg-amber-900 text-amber-300 px-4 py-2">404 Introuvable</span>
+    <span class="rounded-lg bg-rose-900 text-rose-300 px-4 py-2">500 Erreur serveur</span>
+  </div>
+</section>
+
+<!-- 18 · GET LISTE + PARAMS -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS · <span class="rounded bg-emerald-900 text-emerald-300 px-2">GET</span></p>
+  <h2 class="text-5xl font-bold">Une liste + des filtres (<code class="text-yellow-400">params</code>)</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function mesTaches() {
+  const reponse = await axios.get(`${API}/todos`, {
+    params: { userId: 1 }   // → /todos?userId=1
+  });
+  const taches = reponse.data;
+
+  console.log(taches.length, "tâches");
+  const finies = taches.filter((t) =&gt; t.completed);
+  console.log(finies.length, "terminées");
+}
+
+mesTaches();</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">C'est un tableau d'objets → <code class="text-emerald-400">filter</code>, <code class="text-emerald-400">map</code>, <code class="text-emerald-400">find</code> du Jour 2 !</p>
+</section>
+
+<!-- 19 · GET → PAGE -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS · <span class="rounded bg-emerald-900 text-emerald-300 px-2">GET</span></p>
+  <h2 class="text-5xl font-bold">Afficher dans la page</h2>
+<pre class="js bg-slate-900 rounded-2xl p-8 text-2xl">let taches = [];   // notre copie locale
+
+async function charger() {
+  liste.innerHTML = "⏳ Chargement...";
+  const reponse = await axios.get(`${API}/todos`, { params: { userId: 1 } });
+  taches = reponse.data;
+  afficher();
+}
+
+function afficher() {
+  liste.innerHTML = taches.map((t) =&gt; `&lt;li&gt;${t.title}&lt;/li&gt;`).join("");
+}</pre>
+  <p class="text-2xl text-slate-400">Toujours le même schéma : <b class="text-slate-100">charger</b> les données → les ranger dans <code>taches</code> → <b class="text-slate-100">afficher()</b>.</p>
+</section>
+
+<!-- 20 · POST -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-sky-400 text-xl">03 · AXIOS · <span class="rounded bg-sky-900 text-sky-300 px-2">POST</span></p>
+  <h2 class="text-5xl font-bold"><code class="text-sky-400">axios.post</code> : créer</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function creer() {
+  const nouvelle = {
+    title: "Réviser async/await",
+    completed: false,
+    userId: 1
+  };
+  const reponse = await axios.post(`${API}/todos`, nouvelle);
+
+  console.log(reponse.status); // 201 = créé
+  console.log(reponse.data);   // + un id
+}
+
+creer();</pre>
+    <div class="out bg-black rounded-2xl p-6 text-lg text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">2e argument = <b class="text-slate-100">l'objet à envoyer</b>. Le serveur répond avec l'objet + son <code class="text-yellow-400">id</code>.</p>
+</section>
+
+<!-- 21 · PUT -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-amber-400 text-xl">03 · AXIOS · <span class="rounded bg-amber-900 text-amber-300 px-2">PUT</span></p>
+  <h2 class="text-5xl font-bold"><code class="text-amber-400">axios.put</code> : modifier</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function terminer() {
+  const tache = { id: 1, userId: 1, title: "Faire le TP", completed: false };
+
+  const modifiee = { ...tache, completed: true };
+  const reponse = await axios.put(`${API}/todos/1`, modifiee);
+
+  console.log(reponse.status); // 200
+  console.log(reponse.data);
+}
+
+terminer();</pre>
+    <div class="out bg-black rounded-2xl p-6 text-lg text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">L'<code class="text-yellow-400">id</code> va dans l'adresse. PUT envoie l'objet <b class="text-slate-100">complet</b> → le <code class="text-violet-400">...spread</code> du Jour 2 est parfait.</p>
+</section>
+
+<!-- 22 · DELETE -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-rose-400 text-xl">03 · AXIOS · <span class="rounded bg-rose-900 text-rose-300 px-2">DELETE</span></p>
+  <h2 class="text-5xl font-bold"><code class="text-rose-400">axios.delete</code> : supprimer</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">let taches = [{ id: 1 }, { id: 2 }, { id: 3 }];
+
+async function supprimer(id) {
+  const reponse = await axios.delete(`${API}/todos/${id}`);
+  console.log(reponse.status); // 200
+
+  taches = taches.filter((t) =&gt; t.id !== id);
+  console.log("Il reste", taches.length, "tâches");
+}
+
+supprimer(2);</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">Pas d'objet à envoyer : juste l'<code class="text-yellow-400">id</code> dans l'adresse. Puis on retire la tâche de <b class="text-slate-100">notre</b> tableau.</p>
+</section>
+
+<!-- 23 · ERREURS -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS</p>
+  <h2 class="text-5xl font-bold">Quand le serveur dit non</h2>
+  <div class="grid grid-cols-[1.4fr_1fr] gap-6">
+<pre class="js run bg-slate-900 rounded-2xl p-6 text-2xl">async function lireTache(id) {
+  try {
+    const reponse = await axios.get(`${API}/todos/${id}`);
+    console.log("✅", reponse.data.title);
+  } catch (erreur) {
+    console.log("❌ Erreur", erreur.response?.status);
+  }
+}
+
+lireTache(3);
+lireTache(9999);</pre>
+    <div class="out bg-black rounded-2xl p-6 text-xl text-emerald-300 whitespace-pre-wrap"></div>
+  </div>
+  <p class="text-2xl text-slate-400">Avec Axios, une <b class="text-slate-100">404</b> ou une <b class="text-slate-100">500</b> part directement dans <code class="text-pink-400">catch</code>. Pas d'Internet ? Aussi.</p>
+</section>
+
+<!-- 24 · RÈGLE D'OR -->
+<section class="h-full flex-col justify-center px-24 gap-8">
+  <p class="font-mono text-emerald-400 text-xl">03 · AXIOS</p>
+  <h2 class="text-5xl font-bold">⚠️ La règle d'or du TP</h2>
+  <p class="text-2xl text-slate-300">JSONPlaceholder répond « OK » mais <b class="text-amber-300">ne garde rien</b>. Si tu recharges, tout revient comme avant.</p>
+  <div class="flex items-center gap-4 text-2xl">
+    <div class="rounded-2xl bg-slate-800 p-5 text-center">👆<br>clic</div><span class="text-slate-500">→</span>
+    <div class="rounded-2xl bg-slate-800 p-5 text-center font-mono">await<br>axios…</div><span class="text-slate-500">→</span>
+    <div class="rounded-2xl bg-violet-700 p-5 text-center">je modifie<br><code>taches</code></div><span class="text-slate-500">→</span>
+    <div class="rounded-2xl bg-slate-800 p-5 text-center font-mono">afficher()</div>
+  </div>
+  <p class="text-2xl text-slate-400">C'est <b class="text-slate-100">notre tableau</b> <code>taches</code> qui fait foi pour l'affichage. Comme une vraie appli !</p>
+</section>
+
+<!-- 25 · RÉCAP -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-slate-400 text-xl">RÉCAP</p>
+  <h2 class="text-5xl font-bold">Tout sur une slide</h2>
+  <div class="grid grid-cols-2 gap-5 text-xl font-mono">
+    <div class="rounded-2xl bg-slate-900 p-5 border-l-8 border-emerald-500"><p class="text-emerald-300 font-bold">GET · lire · 200</p><p class="mt-2">await axios.get(`${API}/todos`)</p></div>
+    <div class="rounded-2xl bg-slate-900 p-5 border-l-8 border-sky-500"><p class="text-sky-300 font-bold">POST · créer · 201</p><p class="mt-2">await axios.post(`${API}/todos`, objet)</p></div>
+    <div class="rounded-2xl bg-slate-900 p-5 border-l-8 border-amber-500"><p class="text-amber-300 font-bold">PUT · modifier · 200</p><p class="mt-2">await axios.put(`${API}/todos/${id}`, objet)</p></div>
+    <div class="rounded-2xl bg-slate-900 p-5 border-l-8 border-rose-500"><p class="text-rose-300 font-bold">DELETE · supprimer · 200</p><p class="mt-2">await axios.delete(`${API}/todos/${id}`)</p></div>
+  </div>
+<pre class="js bg-slate-900 rounded-2xl p-6 text-2xl">async function action() {
+  try {
+    const reponse = await axios.get(...);  // 1. demander
+    // 2. utiliser reponse.data
+  } catch (erreur) {
+    // 3. prévenir l'utilisateur
+  }
+}</pre>
+</section>
+
+<!-- 26 · QUIZ -->
+<section class="h-full flex-col justify-center px-24 gap-6">
+  <p class="font-mono text-violet-400 text-xl">QUIZ ORAL</p>
+  <h2 class="text-5xl font-bold">À vous !</h2>
+  <ol class="text-2xl space-y-4 list-decimal pl-8">
+    <li>Quel verbe pour <b>supprimer</b> ? Pour <b>créer</b> ?</li>
+    <li>Que s'affiche-t-il si on oublie <code class="text-pink-400">await</code> ?</li>
+    <li>Où sont les données dans la réponse d'Axios ?</li>
+    <li>Peut-on écrire <code class="text-pink-400">await</code> dans une fonction normale ?</li>
+    <li>Que veut dire le code <b>404</b> ? Et <b>201</b> ?</li>
+    <li>Après un DELETE réussi, que doit-on faire de notre tableau <code>taches</code> ?</li>
+  </ol>
+</section>
+
+<!-- 27 · TP -->
+<section class="h-full flex-col items-center justify-center text-center gap-6 px-10">
+  <p class="text-9xl">✅</p>
+  <h2 class="text-6xl font-black">TP : Ma to-do connectée</h2>
+  <p class="text-2xl text-slate-400">Lire, ajouter, cocher et supprimer des tâches… sur un vrai serveur.</p>
+  <div class="flex gap-3 text-lg font-mono">
+    <span class="rounded-lg bg-emerald-900 text-emerald-300 px-4 py-2">GET</span>
+    <span class="rounded-lg bg-sky-900 text-sky-300 px-4 py-2">POST</span>
+    <span class="rounded-lg bg-amber-900 text-amber-300 px-4 py-2">PUT</span>
+    <span class="rounded-lg bg-rose-900 text-rose-300 px-4 py-2">DELETE</span>
+  </div>
+</section>
+
+</main>
+
+<div class="fixed bottom-0 inset-x-0 h-1 bg-slate-800"><div id="bar" class="h-full bg-violet-400 transition-all"></div></div>
+<div id="count" class="fixed bottom-4 right-6 font-mono text-slate-500 text-sm"></div>
+<div class="fixed bottom-4 left-6 font-mono text-slate-600 text-sm">← → espace · F plein écran</div>
+
+<script>
+  // ----- L'adresse de l'API et attendre(), utilisées par les exemples -----
+  const API = "https://jsonplaceholder.typicode.com";
+  const attendre = (ms) => new Promise((ok) => setTimeout(ok, ms));
+
+  // ----- Boutons ▶ Exécuter : on lance le code affiché, la sortie va dans le cadre noir -----
+  const AsyncFunction = (async () => {}).constructor;
+  function texte(v) {
+    if (typeof v === "string") return v;
+    const json = JSON.stringify(v, null, 2);
+    return json && json.length > 400 ? json.slice(0, 400) + "\n…" : String(json);
+  }
+  document.querySelectorAll("pre.run").forEach((pre) => {
+    const code = pre.textContent;
+    const out = pre.parentElement.querySelector(".out");
+    const btn = document.createElement("button");
+    btn.textContent = "▶ Exécuter";
+    btn.className = "col-span-full justify-self-start rounded-lg bg-violet-500 hover:bg-violet-400 text-white font-semibold px-5 py-2 text-lg";
+    pre.parentElement.appendChild(btn);
+    btn.addEventListener("click", async () => {
+      out.textContent = "";
+      const faux = { log: (...a) => { out.textContent += a.map(texte).join(" ") + "\n"; } };
+      try { await new AsyncFunction("console", "API", "attendre", code)(faux, API, attendre); }
+      catch (e) { out.textContent += "⛔ " + e.message + "\n"; }
+    });
+  });
+
+  // ----- Coloration du code -----
+  document.querySelectorAll("pre.js").forEach((pre) => {
+    const html = pre.innerHTML;
+    pre.innerHTML = html.replace(
+      /(\/\/.*$)|(`[^`]*`|"[^"\n]*")|\b(async|await)\b|\b(const|let|function|return|for|if|else|true|false|undefined|try|catch|throw|new)\b|\b(\d+)\b|\.(\w+)(?=\()/gm,
+      (m, com, str, as, mot, num, meth) => {
+        if (com) return `<span class="t-c">${com}</span>`;
+        if (str) return `<span class="t-s">${str}</span>`;
+        if (as) return `<span class="t-a">${as}</span>`;
+        if (mot) return `<span class="t-k">${mot}</span>`;
+        if (num) return `<span class="t-n">${num}</span>`;
+        if (meth) return `.<span class="t-f">${meth}</span>`;
+        return m;
+      }
+    );
+  });
+
+  // ----- Navigation -----
+  const slides = document.querySelectorAll("section");
+  let i = Math.min(Math.max((Number(location.hash.slice(1)) || 1) - 1, 0), slides.length - 1);
+
+  function show() {
+    slides.forEach((s, n) => s.classList.toggle("active", n === i));
+    document.querySelector("#count").textContent = `${i + 1} / ${slides.length}`;
+    document.querySelector("#bar").style.width = `${((i + 1) / slides.length) * 100}%`;
+    history.replaceState(null, "", `#${i + 1}`);
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (["ArrowRight", " ", "PageDown"].includes(e.key)) { e.preventDefault(); i = Math.min(i + 1, slides.length - 1); }
+    if (["ArrowLeft", "PageUp"].includes(e.key)) i = Math.max(i - 1, 0);
+    if (e.key === "f") document.documentElement.requestFullscreen?.();
+    show();
+  });
+  document.addEventListener("click", (e) => {
+    if (e.target.closest("button, .out, pre")) return; // ne pas changer de slide en cliquant sur le code
+    i = e.clientX > innerWidth / 2 ? Math.min(i + 1, slides.length - 1) : Math.max(i - 1, 0);
+    show();
+  });
+  show();
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jour 3 · Ma to-do connectée</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- Axios : AVANT notre script -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="bg-violet-50 min-h-screen p-6">
+  <div class="max-w-2xl mx-auto flex flex-col gap-4">
+
+    <div>
+      <h1 class="text-3xl font-black">✅ Ma to-do connectée</h1>
+      <p class="text-slate-500">Les tâches de <b id="nomUtilisateur">…</b></p>
+    </div>
+
+    <!-- GRID : 2 statistiques -->
+    <section class="grid grid-cols-2 gap-3">
+      <div class="bg-white rounded-2xl shadow p-4"><p class="text-xs text-slate-500">Tâches</p><p id="nb" class="text-2xl font-black">0</p></div>
+      <div class="bg-white rounded-2xl shadow p-4"><p class="text-xs text-slate-500">Terminées</p><p id="finies" class="text-2xl font-black">0</p></div>
+    </section>
+
+    <!-- Formulaire d'ajout -->
+    <form id="form" class="bg-white rounded-2xl shadow p-4 flex gap-3">
+      <input id="titre" placeholder="Nouvelle tâche…" class="flex-1 border border-slate-300 rounded-lg px-3 py-2">
+      <button class="bg-violet-600 text-white rounded-lg px-5 py-2 font-semibold">Ajouter</button>
+    </form>
+
+    <!-- Message : chargement, erreur… -->
+    <p id="message" class="text-sm text-slate-500"></p>
+
+    <!-- La liste : remplie par JavaScript -->
+    <ul id="liste" class="bg-white rounded-2xl shadow divide-y divide-slate-100"></ul>
+
+    <!--
+      Modèle d'une ligne (à fabriquer en JS) :
+      <li class="flex items-center gap-3 p-3">
+        <button class="cocher text-xl" data-id="1">⬜</button>              (✅ si terminée)
+        <p class="flex-1">delectus aut autem</p>                         (ajouter line-through text-slate-400 si terminée)
+        <button class="supprimer text-slate-400 hover:text-red-600" data-id="1">🗑️</button>
+      </li>
+    -->
+  </div>
+
+<script>
+// ===== Déjà prêt (ne pas modifier) =====
+const API = "https://jsonplaceholder.typicode.com";
+
+function attendre(ms) {
+  return new Promise((ok) => setTimeout(ok, ms));
+}
+
+const liste = document.querySelector("#liste");
+const message = document.querySelector("#message");
+const form = document.querySelector("#form");
+const champTitre = document.querySelector("#titre");
+
+let taches = []; // notre copie locale des tâches
+
+// ======================================================
+// PARTIE A · CONSOLE (F12)
+// Une fonction async par exercice, puis on l'appelle.
+// Astuce : commente les appels des exercices déjà faits.
+// ======================================================
+
+// 1. Compte à rebours (async · await · attendre)
+
+
+// 2. GET une tâche
+
+
+// 3. GET les tâches de l'utilisateur 1 (params)
+
+
+// 4. GET un utilisateur, puis ses tâches (2 await)
+
+
+// 5. POST
+
+
+// 6. PUT
+
+
+// 7. DELETE
+
+
+// 8. Erreur 404 (try / catch)
+
+
+// ======================================================
+// PARTIE B · PAGE
+// ======================================================
+
+// 9. charger()
+
+
+// 10. afficher()
+
+
+// 11. Ajouter (submit → POST)
+
+
+// 12. Cocher (clic → PUT)
+
+
+// 13. Supprimer (clic → DELETE)
+
+</script>
+</body>
+</html>
